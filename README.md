@@ -4,16 +4,15 @@
 
 ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/83c75a39-3aba-4ba4-a792-7aefe4b07895/6912169d-ce70-41bf-b624-946d4ee984eb/Untitled.png) // 이미지 추가
 
-GitHub Actions에 워크플로우를 작성해 다음과 같이 배포가 진행되도록 합니다. (파일: [deployment.yml](.github/workflows/deployment.yml))
-
-(사전작업: Ubuntu 최신 버전 설치)
-
-1. Checkout 액션을 사용해 코드 내려받기
-2. `npm ci` 명령어로 프로젝트 의존성 설치
-3. `npm run build` 명령어로 Next.js 프로젝트 빌드
-4. AWS 자격 증명 구성
-5. 빌드된 파일을 S3 버킷에 동기화
-6. CloudFront 캐시 무효화
+- 파일: [deployment.yml](.github/workflows/deployment.yml)
+1. 조건: `main` 브랜치에 푸시될 때
+2. 실행 환경: Ubuntu
+3. Checkout 액션을 사용해 코드 내려받기
+4. `npm ci` 명령어로 프로젝트 의존성 설치
+5. `npm run build` 명령어로 Next.js 프로젝트 빌드
+6. AWS 자격 증명 구성
+7. 빌드된 파일을 S3 버킷에 동기화
+8. CloudFront 캐시 무효화
 
 ## 주요 링크
 
@@ -112,4 +111,18 @@ GitHub Actions에 워크플로우를 작성해 다음과 같이 배포가 진행
   - 사용 방법: 액세스 키, 비밀 키 발급
   - 주의 사항: 보안 유지, 노출 방지
 ## CDN과 성능최적화
-- (CDN 도입 전과 도입 후의 성능 개선 보고서 작성)
+### AS-IS
+단일 서버에서 정적 파일을 제공하여 대한민국으로부터 멀리 접속하는 사용자일 수록 느린 속도를 경험할 수 있습니다.
+### TO-BE
+AWS의 CloudFront를 사용하여 정적 파일을 캐싱하고 가속화하여 사용자에게 빠른 속도를 제공합니다.
+- Why: 사용자가 어디에 있든지 빠르고 동일한 속도의 서비스를 제공하기 위해
+- How:
+  - CloudFront 배포 생성
+  - 정적 자산 배포
+  - 도메인 연결
+  - 캐시 무효화
+- Result:
+  - 평균 페이지 로드 시간 60~80% 감소
+- 서버 트래픽 30~80% 감소
+**(좌측: CloudFront 사용 후, 우측: CloudFront 사용 전)**
+![CDN비교.png](/public/compare-cdn.png)
