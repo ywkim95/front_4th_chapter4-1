@@ -17,7 +17,7 @@
 ## 주요 링크
 
 - S3 버킷 웹사이트 엔드포인트: http://ywkim-hp-s3-1.s3-website.ap-northeast-2.amazonaws.com/
-- CloudFrount 배포 도메인 이름: https://d17142kvmcza8r.cloudfront.net
+- CloudFront 배포 도메인 이름: https://d17142kvmcza8r.cloudfront.net
 
 ## 주요 개념
 
